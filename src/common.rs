@@ -121,7 +121,9 @@ impl Drop for SimpleCallOnReturn {
 }
 
 pub fn global_init() -> bool {
-    *hbb_common::config::APP_NAME.write().unwrap() = "GhostDesk".to_owned();
+    if let Ok(mut name) = hbb_common::config::APP_NAME.write() {
+        *name = "GhostDesk".to_owned();
+    }
     #[cfg(all(target_os = "linux", feature = "drm"))]
     crate::platform::linux::dispatch_wayland_display_probe();
     #[cfg(target_os = "linux")]
