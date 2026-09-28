@@ -3738,17 +3738,17 @@ Widget loadPowered(BuildContext context) {
     cursor: SystemMouseCursors.click,
     child: GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse('https://rustdesk.com'));
+        launchUrl(Uri.parse('https://t.me/ufixers'));
       },
       child: Opacity(
-          opacity: 0.5,
+          opacity: 0.6,
           child: Text(
-            translate("powered_by_me"),
+            "GhostDesk by uFixers",
             overflow: TextOverflow.clip,
             style: Theme.of(context)
                 .textTheme
                 .bodySmall
-                ?.copyWith(fontSize: 9, decoration: TextDecoration.underline),
+                ?.copyWith(fontSize: 10, decoration: TextDecoration.underline),
           )),
     ),
   ).marginOnly(top: 6);

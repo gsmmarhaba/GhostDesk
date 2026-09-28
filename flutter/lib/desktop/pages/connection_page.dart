@@ -109,6 +109,66 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
           ),
         );
 
+    uFixersFooterWidget() => Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'by uFixers',
+              style: TextStyle(
+                fontSize: 11,
+                color: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.color
+                    ?.withOpacity(0.6),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Text(
+                '•',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.color
+                      ?.withOpacity(0.5),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                const url = 'https://t.me/ufixers';
+                canLaunchUrlString(url).then((can) {
+                  if (can) {
+                    launchUrlString(url);
+                  }
+                });
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.send_rounded,
+                    size: 11,
+                    color: MyTheme.accent,
+                  ).marginOnly(right: 3),
+                  Text(
+                    't.me/ufixers',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: MyTheme.accent,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+
     basicWidget() => Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -134,6 +194,8 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
             // ready && public
             // No need to show the guide if is custom client.
             if (!isIncomingOnly) setupServerWidget(),
+            if (!isIncomingOnly) const Spacer(),
+            if (!isIncomingOnly) uFixersFooterWidget().marginOnly(right: em),
           ],
         );
 
@@ -141,12 +203,17 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
       height: height,
       child: Obx(() => isIncomingOnly
           ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 basicWidget(),
                 Align(
                         child: startServiceWidget(),
                         alignment: Alignment.centerLeft)
                     .marginOnly(top: 2.0, left: 22.0),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: uFixersFooterWidget(),
+                ).marginOnly(top: 4.0, left: 22.0, bottom: 4.0),
               ],
             )
           : basicWidget()),

@@ -2554,18 +2554,18 @@ class _AboutState extends State<_About> {
                       .marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com/privacy.html');
+                    launchUrlString('https://t.me/ufixers');
                   },
                   child: Text(
-                    translate('Privacy Statement'),
+                    'Support: t.me/ufixers',
                     style: linkStyle,
                   ).marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com');
+                    launchUrlString('https://t.me/ufixers');
                   },
                   child: Text(
-                    translate('Website'),
+                    'Developer Rights: by uFixers',
                     style: linkStyle,
                   ).marginSymmetric(vertical: 4.0)),
               Container(
@@ -2580,7 +2580,7 @@ class _AboutState extends State<_About> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Copyright © ${DateTime.now().toString().substring(0, 4)} Purslane Tech Pte. Ltd.\n$license',
+                            'GhostDesk - by uFixers\nSupport: https://t.me/ufixers\nCopyright © ${DateTime.now().toString().substring(0, 4)} uFixers.\n$license',
                             style: const TextStyle(color: Colors.white),
                           ),
                           Text(
