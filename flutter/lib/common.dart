@@ -3732,26 +3732,67 @@ Color? disabledTextColor(BuildContext context, bool enabled) {
 
 Widget loadPowered(BuildContext context) {
   if (bind.mainGetBuildinOption(key: "hide-powered-by-me") == 'Y') {
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
-  return MouseRegion(
-    cursor: SystemMouseCursors.click,
-    child: GestureDetector(
-      onTap: () {
-        launchUrl(Uri.parse('https://t.me/ufixers'));
-      },
-      child: Opacity(
-          opacity: 0.6,
-          child: Text(
-            "GhostDesk by uFixers",
-            overflow: TextOverflow.clip,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(fontSize: 10, decoration: TextDecoration.underline),
-          )),
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+  return Container(
+    margin: const EdgeInsets.only(top: 8, bottom: 4, left: 10, right: 10),
+    child: Tooltip(
+      message: "uFixers Support: t.me/ufixers",
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () {
+            launchUrl(Uri.parse('https://t.me/ufixers'));
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF1E293B) : const Color(0xFFEBF3FE),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: isDark ? const Color(0xFF3B82F6) : const Color(0xFF2563EB),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: (isDark ? Colors.black : const Color(0xFF2563EB)).withOpacity(0.18),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.verified,
+                  size: 15,
+                  color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
+                ),
+                const SizedBox(width: 5),
+                Flexible(
+                  child: Text(
+                    "GhostDesk by uFixers",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.2,
+                      color: isDark ? const Color(0xFF93C5FD) : const Color(0xFF1D4ED8),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     ),
-  ).marginOnly(top: 6);
+  );
 }
 
 const _kDefaultLogoAsset = 'assets/logo.png';

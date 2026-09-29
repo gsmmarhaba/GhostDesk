@@ -366,10 +366,19 @@ jobs:
           sed -i '/dpiAware/d' res/manifest.xml
           pushd ./libs/portable
           pip3 install -r requirements.txt
-          python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/rustdesk.exe
+          python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/ghostdesk.exe
           popd
           mkdir -p ./SignOutput
+          cp ./target/release/rustdesk-portable-packer.exe ./SignOutput/GhostDesk.exe
+          cp ./target/release/rustdesk-portable-packer.exe ./SignOutput/GhostDesk-${{ env.VERSION }}-${{ matrix.job.arch }}-portable.exe
           mv ./target/release/rustdesk-portable-packer.exe ./SignOutput/rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.exe
+
+      - name: Upload Single Standalone Portable EXE
+        if: env.UPLOAD_ARTIFACT == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: GhostDesk-Standalone-Portable-Windows-${{ matrix.job.arch }}
+          path: ./SignOutput/GhostDesk.exe
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce # v2
@@ -456,6 +465,7 @@ jobs:
           prerelease: true
           tag_name: ${{ env.TAG_NAME }}
           files: |
+            ./SignOutput/GhostDesk*.exe
             ./SignOutput/rustdesk-*.msi
             ./SignOutput/rustdesk-*.exe
 
@@ -603,7 +613,15 @@ jobs:
           python3 ./generate.py -f ../../Release/ -o . -e ../../Release/rustdesk.exe
           popd
           mkdir -p ./SignOutput
+          cp ./target/release/rustdesk-portable-packer.exe ./SignOutput/GhostDesk-x86.exe
           mv ./target/release/rustdesk-portable-packer.exe ./SignOutput/rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.exe
+
+      - name: Upload Single Standalone Portable EXE (x86)
+        if: env.UPLOAD_ARTIFACT == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: GhostDesk-Standalone-Portable-Windows-${{ matrix.job.arch }}
+          path: ./SignOutput/GhostDesk-x86.exe
 
       - name: Sign rustdesk self-extracted file
         if: env.UPLOAD_ARTIFACT == 'true' && env.SIGN_BASE_URL != '-2'
@@ -618,6 +636,7 @@ jobs:
           prerelease: true
           tag_name: ${{ env.TAG_NAME }}
           files: |
+            ./SignOutput/GhostDesk*.exe
             ./SignOutput/rustdesk-*.exe
 
   build-rustdesk-ios:
